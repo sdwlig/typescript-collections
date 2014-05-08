@@ -2,7 +2,7 @@
 //
 // Licensed under MIT open source license http://opensource.org/licenses/MIT
 //
-// Orginal javascript code was by Mauricio Santos
+// Original javascript code was by Mauricio Santos
 
 /**
  * @namespace Top level namespace for collections, a TypeScript data structure library.
@@ -753,15 +753,7 @@ module collections {
          */
         private nElements: number;
 
-        /**
-         * Function used to convert keys to strings.
-         * @type {function(Object):string}
-         * @private
-         */
-        private toStr: (key: K) => string;
-
-
-        /**
+       /**
          * Creates an empty dictionary. 
          * @class <p>Dictionaries map keys to values; each key can map to at most one value.
          * This implementation accepts any kind of objects as keys.</p>
@@ -774,15 +766,10 @@ module collections {
          * }
          * </pre>
          * @constructor
-         * @param {function(Object):string=} toStrFunction optional function used
-         * to convert keys to strings. If the keys aren't strings or if toString()
-         * is not appropriate, a custom function which receives a key and returns a
-         * unique string must be provided.
-         */
-        constructor(toStrFunction?: (key: K) => string) {
+          */
+        constructor() {
             this.table = {};
             this.nElements = 0;
-            this.toStr = toStrFunction || collections.defaultToString;
         }
 
 
@@ -794,7 +781,7 @@ module collections {
          * undefined if the map contains no mapping for this key.
          */
         getValue(key: K): V {
-            var pair: IDictionaryPair<K, V> = this.table[this.toStr(key)];
+            var pair: IDictionaryPair<K, V> = this.table[key.toString()];
             if (collections.isUndefined(pair)) {
                 return undefined;
             }
@@ -819,7 +806,7 @@ module collections {
             }
 
             var ret: V;
-            var k = this.toStr(key);
+            var k = key.toString();
             var previousElement: IDictionaryPair<K, V> = this.table[k];
             if (collections.isUndefined(previousElement)) {
                 this.nElements++;
@@ -842,7 +829,7 @@ module collections {
          * there was no mapping for key.
          */
         remove(key: K): V {
-            var k = this.toStr(key);
+            var k = key.toString();
             var previousElement: IDictionaryPair<K, V> = this.table[k];
             if (!collections.isUndefined(previousElement)) {
                 delete this.table[k];
@@ -1004,17 +991,13 @@ module collections {
          * }
        * </pre>
        * @constructor
-       * @param {function(Object):string=} toStrFunction optional function
-       * to convert keys to strings. If the keys aren't strings or if toString()
-       * is not appropriate, a custom function which receives a key and returns a
-       * unique string must be provided.
        * @param {function(Object,Object):boolean=} valuesEqualsFunction optional
        * function to check if two values are equal.
        *
        * @param allowDuplicateValues
        */
-        constructor(toStrFunction?: (key: K) => string, valuesEqualsFunction?: IEqualsFunction<V>, allowDuplicateValues = false) {
-            this.dict = new Dictionary<K, Array<V>>(toStrFunction);
+        constructor(valuesEqualsFunction?: IEqualsFunction<V>, allowDuplicateValues = false) {
+            this.dict = new Dictionary<K, Array<V>>();
             this.equalsF = valuesEqualsFunction || collections.defaultEquals;
             this.allowDuplicate = allowDuplicateValues;
         }
@@ -1748,13 +1731,9 @@ module collections {
          * </pre>
          *
          * @constructor
-         * @param {function(Object):string=} toStringFunction optional function used
-         * to convert elements to strings. If the elements aren't strings or if toString()
-         * is not appropriate, a custom function which receives a onject and returns a
-         * unique string must be provided.
          */
-        constructor(toStringFunction?: (item: T) => string) {
-            this.dictionary = new Dictionary<T, any>(toStringFunction);
+        constructor() {
+            this.dictionary = new Dictionary<T, any>();
         }
 
 
@@ -1938,7 +1917,7 @@ module collections {
          */
         constructor(toStrFunction?: (item: T) => string) {
             this.toStrF = toStrFunction || collections.defaultToString;
-            this.dictionary = new Dictionary<T, any>(this.toStrF);
+            this.dictionary = new Dictionary<T, any>();
             this.nElements = 0;
         }
 
@@ -2050,7 +2029,7 @@ module collections {
          * @return {collections.Set<T>} a set of unique elements in this bag.
          */
         toSet(): Set<T> {
-            var toret = new Set<T>(this.toStrF);
+            var toret = new Set<T>();
             var elements = this.dictionary.values();
             var l = elements.length;
             for (var i = 0; i < l; i++) {
