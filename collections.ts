@@ -7,10 +7,10 @@
 /**
  * @namespace Top level namespace for collections, a TypeScript data structure library.
  */
-module collections {
-    
+// export module collections {
+
     var _hasOwnProperty = Object.prototype.hasOwnProperty;
-    var has = function(obj: any, prop: any) {
+    var has = function(obj, prop) {
         return _hasOwnProperty.call(obj, prop);
     }
 
@@ -67,9 +67,9 @@ module collections {
     export function defaultToString(item: any): string {
         if (item === null) {
             return 'COLLECTION_NULL';
-        } else if (collections.isUndefined(item)) {
+        } else if (/*collections.*/isUndefined(item)) {
             return 'COLLECTION_UNDEFINED';
-        } else if (collections.isString(item)) {
+        } else if (/*collections.*/isString(item)) {
             return '$s' + item;
         } else {
             return '$o' + item.toString();
@@ -82,9 +82,9 @@ module collections {
     export function makeString<T>(item: T, join: string = ","): string {
         if (item === null) {
             return 'COLLECTION_NULL';
-        } else if (collections.isUndefined(item)) {
+        } else if (/*collections.*/isUndefined(item)) {
             return 'COLLECTION_UNDEFINED';
-        } else if (collections.isString(item)) {
+        } else if (/*collections.*/isString(item)) {
             return item.toString();
         } else {
             var toret = "{";
@@ -95,7 +95,7 @@ module collections {
                         first = false;
                     else
                         toret = toret + join;
-                    toret = toret + prop + ":" + (<any>item)[prop];
+                    toret = toret + prop + ":" + item[prop];
                 }
             }
             return toret + "}";
@@ -131,7 +131,7 @@ module collections {
      * @function
      */
     export function reverseCompareFunction<T>(compareFunction: ICompareFunction<T>): ICompareFunction<T> {
-        if (!collections.isFunction(compareFunction)) {
+        if (!/*collections.*/isFunction(compareFunction)) {
             return function (a, b) {
                 if (a < b) {
                     return 1;
@@ -173,8 +173,8 @@ module collections {
          * @return {number} the position of the first occurrence of the specified element
          * within the specified array, or -1 if not found.
          */
-        export function indexOf<T>(array: T[], item: T, equalsFunction?: collections.IEqualsFunction<T>): number {
-            var equals = equalsFunction || collections.defaultEquals;
+        export function indexOf<T>(array: T[], item: T, equalsFunction?: /*collections.*/IEqualsFunction<T>): number {
+            var equals = equalsFunction || /*collections.*/defaultEquals;
             var length = array.length;
             for (var i = 0; i < length; i++) {
                 if (equals(array[i], item)) {
@@ -194,8 +194,8 @@ module collections {
          * @return {number} the position of the last occurrence of the specified element
          * within the specified array or -1 if not found.
          */
-        export function lastIndexOf<T>(array: T[], item: T, equalsFunction?: collections.IEqualsFunction<T>): number {
-            var equals = equalsFunction || collections.defaultEquals;
+        export function lastIndexOf<T>(array: T[], item: T, equalsFunction?: /*collections.*/IEqualsFunction<T>): number {
+            var equals = equalsFunction || /*collections.*/defaultEquals;
             var length = array.length;
             for (var i = length - 1; i >= 0; i--) {
                 if (equals(array[i], item)) {
@@ -213,7 +213,7 @@ module collections {
          * check equality between 2 elements.
          * @return {boolean} true if the specified array contains the specified element.
          */
-        export function contains<T>(array: T[], item: T, equalsFunction?: collections.IEqualsFunction<T>): boolean {
+        export function contains<T>(array: T[], item: T, equalsFunction?: /*collections.*/IEqualsFunction<T>): boolean {
             return arrays.indexOf(array, item, equalsFunction) >= 0;
         }
 
@@ -226,7 +226,7 @@ module collections {
          * check equality between 2 elements.
          * @return {boolean} true if the array changed after this call.
          */
-        export function remove<T>(array: T[], item: T, equalsFunction?: collections.IEqualsFunction<T>): boolean {
+        export function remove<T>(array: T[], item: T, equalsFunction?: /*collections.*/IEqualsFunction<T>): boolean {
             var index = arrays.indexOf(array, item, equalsFunction);
             if (index < 0) {
                 return false;
@@ -245,8 +245,8 @@ module collections {
          * @return {number} the number of elements in the specified array 
          * equal to the specified object.
          */
-        export function frequency<T>(array: T[], item: T, equalsFunction?: collections.IEqualsFunction<T>): number {
-            var equals = equalsFunction || collections.defaultEquals;
+        export function frequency<T>(array: T[], item: T, equalsFunction?: /*collections.*/IEqualsFunction<T>): number {
+            var equals = equalsFunction || /*collections.*/defaultEquals;
             var length = array.length;
             var freq = 0;
             for (var i = 0; i < length; i++) {
@@ -268,8 +268,8 @@ module collections {
          * check equality between elemements in the arrays.
          * @return {boolean} true if the two arrays are equal
          */
-        export function equals<T>(array1: T[], array2: T[], equalsFunction?: collections.IEqualsFunction<T>): boolean {
-            var equals = equalsFunction || collections.defaultEquals;
+        export function equals<T>(array1: T[], array2: T[], equalsFunction?: /*collections.*/IEqualsFunction<T>): boolean {
+            var equals = equalsFunction || /*collections.*/defaultEquals;
 
             if (array1.length !== array2.length) {
                 return false;
@@ -378,10 +378,10 @@ module collections {
         * or if the element is undefined.
         */
         add(item: T, index?: number): boolean {
-            if (collections.isUndefined(index)) {
+            if (/*collections.*/isUndefined(index)) {
                 index = this.nElements;
             }
-            if (index < 0 || index > this.nElements || collections.isUndefined(item)) {
+            if (index < 0 || index > this.nElements || /*collections.*/isUndefined(item)) {
                 return false;
             }
             var newNode = this.createNode(item);
@@ -469,8 +469,8 @@ module collections {
          */
         indexOf(item: T, equalsFunction?: IEqualsFunction<T>): number {
 
-            var equalsF = equalsFunction || collections.defaultEquals;
-            if (collections.isUndefined(item)) {
+            var equalsF = equalsFunction || /*collections.*/defaultEquals;
+            if (/*collections.*/isUndefined(item)) {
                 return -1;
             }
             var currentNode = this.firstNode;
@@ -524,8 +524,8 @@ module collections {
          * @return {boolean} true if the list contained the specified element.
          */
         remove(item: T, equalsFunction?: IEqualsFunction<T>): boolean {
-            var equalsF = equalsFunction || collections.defaultEquals;
-            if (this.nElements < 1 || collections.isUndefined(item)) {
+            var equalsF = equalsFunction || /*collections.*/defaultEquals;
+            if (this.nElements < 1 || /*collections.*/isUndefined(item)) {
                 return false;
             }
             var previous: ILinkedListNode<T> = null;
@@ -576,8 +576,8 @@ module collections {
          * @return {boolean} true if this list is equal to the given list.
          */
         equals(other: LinkedList<T>, equalsFunction?: IEqualsFunction<T>): boolean {
-            var eqF = equalsFunction || collections.defaultEquals;
-            if (!(other instanceof collections.LinkedList)) {
+            var eqF = equalsFunction || /*collections.*/defaultEquals;
+            if (!(other instanceof /*collections.*/LinkedList)) {
                 return false;
             }
             if (this.size() !== other.size()) {
@@ -701,7 +701,7 @@ module collections {
         }
 
         toString(): string {
-            return collections.arrays.toString(this.toArray());
+            return /*collections.*/arrays.toString(this.toArray());
         }
 
         /**
@@ -787,7 +787,7 @@ module collections {
         constructor(toStrFunction?: (key: K) => string) {
             this.table = {};
             this.nElements = 0;
-            this.toStr = toStrFunction || collections.defaultToString;
+            this.toStr = toStrFunction || /*collections.*/defaultToString;
         }
 
 
@@ -800,7 +800,7 @@ module collections {
          */
         getValue(key: K): V {
             var pair: IDictionaryPair<K, V> = this.table['$' + this.toStr(key)];
-            if (collections.isUndefined(pair)) {
+            if (/*collections.*/isUndefined(pair)) {
                 return undefined;
             }
             return pair.value;
@@ -819,14 +819,14 @@ module collections {
          */
         setValue(key: K, value: V): V {
 
-            if (collections.isUndefined(key) || collections.isUndefined(value)) {
+            if (/*collections.*/isUndefined(key) || /*collections.*/isUndefined(value)) {
                 return undefined;
             }
 
             var ret: V;
             var k = '$' + this.toStr(key);
             var previousElement: IDictionaryPair<K, V> = this.table[k];
-            if (collections.isUndefined(previousElement)) {
+            if (/*collections.*/isUndefined(previousElement)) {
                 this.nElements++;
                 ret = undefined;
             } else {
@@ -849,7 +849,7 @@ module collections {
         remove(key: K): V {
             var k = '$' + this.toStr(key);
             var previousElement: IDictionaryPair<K, V> = this.table[k];
-            if (!collections.isUndefined(previousElement)) {
+            if (!/*collections.*/isUndefined(previousElement)) {
                 delete this.table[k];
                 this.nElements--;
                 return previousElement.value;
@@ -914,12 +914,12 @@ module collections {
          * specified key.
          */
         containsKey(key: K): boolean {
-            return !collections.isUndefined(this.getValue(key));
+            return !/*collections.*/isUndefined(this.getValue(key));
         }
 
         /**
         * Removes all mappings from this dictionary.
-        * @this {collections.Dictionary}
+        * @this {Dictionary}
         */
         clear() {
             this.table = {};
@@ -997,7 +997,7 @@ module collections {
          * Retrieves a linked dictionary from the table internally
          */
         private getLinkedDictionaryPair(key: K): LinkedDictionaryPair<K, V> {
-            if (collections.isUndefined(key)) {
+            if (/*collections.*/isUndefined(key)) {
                 return undefined;
             }
             var k = '$' + this.toStr(key);
@@ -1014,7 +1014,7 @@ module collections {
          */
         getValue(key: K): V {
             var pair = this.getLinkedDictionaryPair(key);
-            if (!collections.isUndefined(pair)) {
+            if (!/*collections.*/isUndefined(pair)) {
                 return pair.value;
             }
             return undefined;
@@ -1031,7 +1031,7 @@ module collections {
          */
         remove(key: K): V {
             var pair = this.getLinkedDictionaryPair(key);
-            if (!collections.isUndefined(pair)) {
+            if (!/*collections.*/isUndefined(pair)) {
                 super.remove(key); // This will remove it from the table
                 pair.unlink(); // This will unlink it from the chain
                 return pair.value;
@@ -1041,7 +1041,7 @@ module collections {
 
         /**
         * Removes all mappings from this LinkedDictionary.
-        * @this {collections.LinkedDictionary}
+        * @this {LinkedDictionary}
         */
         clear() {
             super.clear();
@@ -1092,7 +1092,7 @@ module collections {
          */
         setValue(key: K, value: V): V {
 
-            if (collections.isUndefined(key) || collections.isUndefined(value)) {
+            if (/*collections.*/isUndefined(key) || /*collections.*/isUndefined(value)) {
                 return undefined;
             }
 
@@ -1103,7 +1103,7 @@ module collections {
 
             // If there is already an element for that key, we 
             // keep it's place in the LinkedList
-            if (!collections.isUndefined(existingPair)) {
+            if (!/*collections.*/isUndefined(existingPair)) {
                 this.replace(existingPair, newPair);
 
                 return existingPair.value;
@@ -1168,14 +1168,14 @@ module collections {
     // /**
     //  * Returns true if this dictionary is equal to the given dictionary.
     //  * Two dictionaries are equal if they contain the same mappings.
-    //  * @param {collections.Dictionary} other the other dictionary.
+    //  * @param {/*collections.*/Dictionary} other the other dictionary.
     //  * @param {function(Object,Object):boolean=} valuesEqualFunction optional
     //  * function used to check if two values are equal.
     //  * @return {boolean} true if this dictionary is equal to the given dictionary.
     //  */
-    // collections.Dictionary.prototype.equals = function(other,valuesEqualFunction) {
-    // 	var eqF = valuesEqualFunction || collections.defaultEquals;
-    // 	if(!(other instanceof collections.Dictionary)){
+    // /*collections.*/Dictionary.prototype.equals = function(other,valuesEqualFunction) {
+    // 	var eqF = valuesEqualFunction || /*collections.*/defaultEquals;
+    // 	if(!(other instanceof /*collections.*/Dictionary)){
     // 		return false;
     // 	}
     // 	if(this.size() !== other.size()){
@@ -1231,7 +1231,7 @@ module collections {
        */
         constructor(toStrFunction?: (key: K) => string, valuesEqualsFunction?: IEqualsFunction<V>, allowDuplicateValues = false) {
             this.dict = new Dictionary<K, Array<V>>(toStrFunction);
-            this.equalsF = valuesEqualsFunction || collections.defaultEquals;
+            this.equalsF = valuesEqualsFunction || /*collections.*/defaultEquals;
             this.allowDuplicate = allowDuplicateValues;
         }
         /**
@@ -1244,10 +1244,10 @@ module collections {
         */
         getValue(key: K): V[] {
             var values = this.dict.getValue(key);
-            if (collections.isUndefined(values)) {
+            if (/*collections.*/isUndefined(values)) {
                 return [];
             }
-            return collections.arrays.copy(values);
+            return /*collections.*/arrays.copy(values);
         }
 
         /**
@@ -1260,7 +1260,7 @@ module collections {
          */
         setValue(key: K, value: V): boolean {
 
-            if (collections.isUndefined(key) || collections.isUndefined(value)) {
+            if (/*collections.*/isUndefined(key) || /*collections.*/isUndefined(value)) {
                 return false;
             }
             if (!this.containsKey(key)) {
@@ -1269,7 +1269,7 @@ module collections {
             }
             var array = this.dict.getValue(key);
             if (!this.allowDuplicate) {
-                if (collections.arrays.contains(array, value, this.equalsF)) {
+                if (/*collections.*/arrays.contains(array, value, this.equalsF)) {
                     return false;
                 }
             }
@@ -1289,12 +1289,12 @@ module collections {
          * if the specified value isn't associated with the specified key.
          */
         remove(key: K, value?: V): boolean {
-            if (collections.isUndefined(value)) {
+            if (/*collections.*/isUndefined(value)) {
                 var v = this.dict.remove(key);
-                return !collections.isUndefined(v);
+                return !/*collections.*/isUndefined(v);
             }
             var array = this.dict.getValue(key);
-            if (collections.arrays.remove(array, value, this.equalsF)) {
+            if (/*collections.*/arrays.remove(array, value, this.equalsF)) {
                 if (array.length === 0) {
                     this.dict.remove(key);
                 }
@@ -1419,7 +1419,7 @@ module collections {
          * or greater than the second.
          */
         constructor(compareFunction?: ICompareFunction<T>) {
-            this.compare = compareFunction || collections.defaultCompare;
+            this.compare = compareFunction || /*collections.*/defaultCompare;
         }
 
         /**
@@ -1484,7 +1484,7 @@ module collections {
 
             var parent = this.parentIndex(index);
             while (index > 0 && this.compare(this.data[parent], this.data[index]) > 0) {
-                collections.arrays.swap(this.data, parent, index);
+                /*collections.*/arrays.swap(this.data, parent, index);
                 index = parent;
                 parent = this.parentIndex(index);
             }
@@ -1502,7 +1502,7 @@ module collections {
 
             while (min >= 0 && this.compare(this.data[nodeIndex],
                 this.data[min]) > 0) {
-                collections.arrays.swap(this.data, min, nodeIndex);
+                /*collections.*/arrays.swap(this.data, min, nodeIndex);
                 nodeIndex = min;
                 min = this.minIndex(this.leftChildIndex(nodeIndex),
                     this.rightChildIndex(nodeIndex));
@@ -1527,7 +1527,7 @@ module collections {
          * @return true if the element was added or fals if it is undefined.
          */
         add(element: T): boolean {
-            if (collections.isUndefined(element)) {
+            if (/*collections.*/isUndefined(element)) {
                 return undefined;
             }
             this.data.push(element);
@@ -1560,8 +1560,8 @@ module collections {
          * otherwise.
          */
         contains(element: T): boolean {
-            var equF = collections.compareToEquals(this.compare);
-            return collections.arrays.contains(this.data, element, equF);
+            var equF = /*collections.*/compareToEquals(this.compare);
+            return /*collections.*/arrays.contains(this.data, element, equF);
         }
         /**
          * Returns the number of elements in this heap.
@@ -1593,14 +1593,14 @@ module collections {
          * optionally return false.
          */
         forEach(callback: (item: T) => boolean) {
-            collections.arrays.forEach(this.data, callback);
+            /*collections.*/arrays.forEach(this.data, callback);
         }
     }
 
     export class Stack<T> {
         /**
          * List containing the elements.
-         * @type collections.LinkedList
+         * @type LinkedList
          * @private
          */
         private list: LinkedList<T>;
@@ -1710,7 +1710,7 @@ module collections {
 
         /**
          * List containing the elements.
-         * @type collections.LinkedList
+         * @type LinkedList
          * @private
          */
         private list: LinkedList<T>;
@@ -1855,7 +1855,7 @@ module collections {
          * or greater than the second.
          */
         constructor(compareFunction?: ICompareFunction<T>) {
-            this.heap = new Heap<T>(collections.reverseCompareFunction(compareFunction));
+            this.heap = new Heap<T>(/*collections.*/reverseCompareFunction(compareFunction));
         }
 
         /**
@@ -1991,7 +1991,7 @@ module collections {
          * @return {boolean} true if this set did not already contain the specified element.
          */
         add(element: T): boolean {
-            if (this.contains(element) || collections.isUndefined(element)) {
+            if (this.contains(element) || /*collections.*/isUndefined(element)) {
                 return false;
             } else {
                 this.dictionary.setValue(element, element);
@@ -2002,7 +2002,7 @@ module collections {
         /**
          * Performs an intersecion between this an another set.
          * Removes all values that are not present this set and the given set.
-         * @param {collections.Set} otherSet other set.
+         * @param {Set} otherSet other set.
          */
         intersection(otherSet: Set<T>): void {
             var set = this;
@@ -2017,7 +2017,7 @@ module collections {
         /**
          * Performs a union between this an another set.
          * Adds all values from the given set to this set.
-         * @param {collections.Set} otherSet other set.
+         * @param {Set} otherSet other set.
          */
         union(otherSet: Set<T>): void {
             var set = this;
@@ -2030,7 +2030,7 @@ module collections {
         /**
          * Performs a difference between this an another set.
          * Removes from this set all the values that are present in the given set.
-         * @param {collections.Set} otherSet other set.
+         * @param {Set} otherSet other set.
          */
         difference(otherSet: Set<T>): void {
             var set = this;
@@ -2042,7 +2042,7 @@ module collections {
 
         /**
          * Checks whether the given set contains all the elements in this set.
-         * @param {collections.Set} otherSet other set.
+         * @param {Set} otherSet other set.
          * @return {boolean} true if this set is a subset of the given set.
          */
         isSubsetOf(otherSet: Set<T>): boolean {
@@ -2123,7 +2123,7 @@ module collections {
         * Provides a string representation for display
         */
         toString(): string {
-            return collections.arrays.toString(this.toArray());
+            return /*collections.*/arrays.toString(this.toArray());
         }
     }// end of Set
 
@@ -2153,7 +2153,7 @@ module collections {
          * unique string must be provided.
          */
         constructor(toStrFunction?: (item: T) => string) {
-            this.toStrF = toStrFunction || collections.defaultToString;
+            this.toStrF = toStrFunction || /*collections.*/defaultToString;
             this.dictionary = new Dictionary<T, any>(this.toStrF);
             this.nElements = 0;
         }
@@ -2168,7 +2168,7 @@ module collections {
         */
         add(element: T, nCopies: number= 1): boolean {
 
-            if (collections.isUndefined(element) || nCopies <= 0) {
+            if (/*collections.*/isUndefined(element) || nCopies <= 0) {
                 return false;
             }
 
@@ -2220,7 +2220,7 @@ module collections {
         */
         remove(element: T, nCopies: number = 1) {
 
-            if (collections.isUndefined(element) || nCopies <= 0) {
+            if (/*collections.*/isUndefined(element) || nCopies <= 0) {
                 return false;
             }
 
@@ -2263,7 +2263,7 @@ module collections {
 
         /**
          * Returns a set of unique elements in this bag. 
-         * @return {collections.Set<T>} a set of unique elements in this bag.
+         * @return {Set<T>} a set of unique elements in this bag.
          */
         toSet(): Set<T> {
             var toret = new Set<T>(this.toStrF);
@@ -2371,7 +2371,7 @@ module collections {
          */
         constructor(compareFunction?: ICompareFunction<T>) {
             this.root = null;
-            this.compare = compareFunction || collections.defaultCompare;
+            this.compare = compareFunction || /*collections.*/defaultCompare;
             this.nElements = 0;
         }
 
@@ -2381,7 +2381,7 @@ module collections {
          * @return {boolean} true if this tree did not already contain the specified element.
          */
         add(element: T): boolean {
-            if (collections.isUndefined(element)) {
+            if (/*collections.*/isUndefined(element)) {
                 return false;
             }
 
@@ -2423,7 +2423,7 @@ module collections {
          * false otherwise.
          */
         contains(element: T): boolean {
-            if (collections.isUndefined(element)) {
+            if (/*collections.*/isUndefined(element)) {
                 return false;
             }
             return this.searchNode(this.root, element) !== null;
@@ -2748,4 +2748,4 @@ module collections {
     } // end of BSTree
 
 
-}// End of module 
+// }// End of module
